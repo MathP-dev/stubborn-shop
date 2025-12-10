@@ -1,0 +1,54 @@
+{% extends 'base.html. twig' %}
+
+{% block title %}Modifier {{ product.name }} - Admin{% endblock %}
+
+{% block body %}
+<h1 class="text-center mb-4">Modifier le produit : {{ product.name }}</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_row(form.name) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(form.price) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(form.image) }}
+                {% if product.image %}
+                    <div class="mt-2">
+                        <p>Image actuelle :</p>
+                        <img src="{{ asset('upload/products/' ~ product.image) }}"
+                             alt="{{ product.name }}"
+                             class="admin-product-preview">
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(form.featured) }}
+            </div>
+
+            <h4>Stocks par taille</h4>
+            <div class="row">
+                {% for size in ['XS', 'S', 'M', 'L', 'XL'] %}
+                    <div class="col-md-2 mb-3">
+                        {{ form_row(form['stock_' ~ size]) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Enregistrer les modifications</button>
+            </div>
+        {{ form_end(form) }}
+
+        <div class="mt-3">
+            <a href="{{ path('app_admin_dashboard') }}" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

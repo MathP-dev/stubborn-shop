@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Stubborn{% endblock %}
+
+{% block body %}
+<h1 class="text-center mb-4">Tableau de bord administrateur</h1>
+
+<div class="mb-4">
+    <a href="{{ path('app_admin_product_create') }}" class="btn btn-success">
+        Ajouter un nouveau produit
+    </a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>En avant</th>
+            <th>Stock total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr>
+                <td>
+                    <img src="{{ asset('upload/products/' ~ product.image) }}"
+                         alt="{{ product. name }}"
+                         class="admin-product-thumb"
+                         data-fallback="https://via.placeholder.com/60x60">
+                </td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }} €</td>
+                <td>
+                    {% if product.featured %}
+                        <span class="badge bg-success">Oui</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Non</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% set totalStock = 0 %}
+                    {% for stock in product.stocks %}
+                        {% set totalStock = totalStock + stock.quantity %}
+                    {% endfor %}
+                    {{ totalStock }}
+                </td>
+                <td>
+                    <a href="{{ path('app_admin_product_edit', {id: product.id}) }}"
+                       class="btn btn-sm btn-primary">Modifier</a>
+
+                    <form method="post"
+                          action="{{ path('app_admin_product_delete', {id: product.id}) }}"
+                          class="d-inline product-delete-form">
+                        <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Aucun produit trouvé. </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-4">
+    <a href="{{ path('app_home') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+</div>
+{% endblock %}

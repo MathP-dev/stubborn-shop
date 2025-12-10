@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Stubborn{% endblock %}
+
+{% block body %}
+<div class="text-center my-5">
+    <h1>Bienvenue chez Stubborn</h1>
+    <p class="lead">Don't compromise on your look</p>
+</div>
+
+<section class="about-section mb-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h2 class="text-center mb-4">Notre Histoire</h2>
+            <p class="text-center">
+                Stubborn est une marque de sweat-shirts qui incarne la rébellion élégante et l'authenticité.
+                Basée à Londres, nous créons des vêtements pour ceux qui refusent de compromettre leur style.
+                Chaque pièce est conçue avec passion et attention aux détails.
+            </p>
+            <p class="text-center">
+                Nos collections s'inspirent de la culture urbaine, du streetwear et de l'esprit indépendant
+                qui caractérise notre époque. Rejoignez le mouvement Stubborn.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="featured-products">
+    <h2 class="text-center mb-5">Nos Coups de Cœur</h2>
+    <div class="row">
+        {% for product in featuredProducts %}
+            <div class="col-md-4">
+                <div class="card product-card">
+                    <img src="{{ asset('upload/products/' ~ product.image) }}"
+                         class="card-img-top"
+                         alt="{{ product.name }}"
+                         data-fallback="https://via.placeholder.com/400x400?text={{ product.name }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.price }} €</p>
+
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('app_product_show', {id: product.id}) }}"
+                               class="btn btn-dark">Voir</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% if not is_granted('ROLE_USER') %}
+    <div class="text-center my-5">
+        <p class="lead">Connectez-vous pour découvrir toute notre collection !</p>
+        <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg me-2">Se connecter</a>
+        <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-lg">S'inscrire</a>
+    </div>
+{% endif %}
+{% endblock %}

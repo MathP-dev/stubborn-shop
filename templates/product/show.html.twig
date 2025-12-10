@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} - Stubborn{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-6">
+        <img src="{{ asset('upload/products/' ~ product.image) }}"
+             class="img-fluid"
+             alt="{{ product.name }}"
+             data-fallback="https://via.placeholder.com/600x600?text={{ product.name }}">
+    </div>
+    <div class="col-md-6">
+        <h1>{{ product.name }}</h1>
+        <h2 class="text-primary">{{ product.price }} €</h2>
+
+        <hr>
+
+        <p class="lead">Sweat-shirt de qualité supérieure, disponible en plusieurs tailles.</p>
+
+        {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_row(form.size) }}
+            </div>
+
+            <div class="mb-3">
+                <h5>Stock disponible par taille :</h5>
+                <ul>
+                    {% for stock in product.stocks %}
+                        <li>
+                            {{ stock.size }}:
+                            {% if stock.isAvailable %}
+                                <span class="text-success">{{ stock.quantity }} en stock</span>
+                            {% else %}
+                                <span class="text-danger">Rupture de stock</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-dark btn-lg">Ajouter au panier</button>
+            </div>
+        {{ form_end(form) }}
+
+        <div class="mt-4">
+            <a href="{{ path('app_products') }}" class="btn btn-outline-secondary">Retour à la boutique</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

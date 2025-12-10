@@ -1,0 +1,56 @@
+/* Email Styles - Note: Pour les emails, les styles inline sont nécessaires pour la compatibilité */
+/* Ce fichier documente les styles utilisés dans les templates d'email */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.email-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.email-header h1 {
+    color: #000;
+    text-align: center;
+}
+
+.email-tagline {
+    font-style: italic;
+    text-align: center;
+}
+
+.email-divider {
+    border: 1px solid #ddd;
+}
+
+.email-button {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.email-button-container {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.email-order-details {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.email-footer {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
+

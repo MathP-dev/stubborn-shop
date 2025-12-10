@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique - Stubborn{% endblock %}
+
+{% block body %}
+<h1 class="text-center mb-4">Notre Collection</h1>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="btn-group" role="group">
+            <a href="{{ path('app_products') }}"
+               class="btn {% if not currentPriceRange %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                Tous les produits
+            </a>
+            <a href="{{ path('app_products', {price_range: '10-29'}) }}"
+               class="btn {% if currentPriceRange == '10-29' %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                10€ - 29€
+            </a>
+            <a href="{{ path('app_products', {price_range: '29-35'}) }}"
+               class="btn {% if currentPriceRange == '29-35' %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                29€ - 35€
+            </a>
+            <a href="{{ path('app_products', {price_range: '35-50'}) }}"
+               class="btn {% if currentPriceRange == '35-50' %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                35€ - 50€
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-4">
+            <div class="card product-card">
+                <img src="{{ asset('upload/products/' ~ product.image) }}"
+                     class="card-img-top"
+                     alt="{{ product.name }}"
+                     data-fallback="https://via.placeholder.com/400x400?text={{ product.name }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.price }} €</p>
+                    <a href="{{ path('app_product_show', {id: product.id}) }}"
+                       class="btn btn-dark">Voir</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-12">
+            <p class="text-center">Aucun produit trouvé dans cette fourchette de prix.</p>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="text-center mt-4">
+    <a href="{{ path('app_home') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+</div>
+{% endblock %}

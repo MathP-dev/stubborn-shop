@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier - Stubborn{% endblock %}
+
+{% block body %}
+<h1 class="text-center mb-4">Mon Panier</h1>
+
+{% if cartItems is empty %}
+    <div class="alert alert-info text-center">
+        Votre panier est vide.
+    </div>
+    <div class="text-center">
+        <a href="{{ path('app_products') }}" class="btn btn-primary">Continuer mes achats</a>
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Taille</th>
+                        <th>Prix unitaire</th>
+                        <th>Quantité</th>
+                        <th>Sous-total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, item in cartItems %}
+                        <tr>
+                            <td>
+                                <img src="{{ asset('upload/products/' ~ item.product.image) }}"
+                                     alt="{{ item.product.name }}"
+                                     class="cart-product-img"
+                                     data-fallback="https://via.placeholder.com/80x80">
+                                {{ item.product.name }}
+                            </td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.product.price }} €</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item. subtotal|number_format(2, ',', ' ') }} €</td>
+                            <td>
+                                <form method="post"
+                                      action="{{ path('app_cart_remove', {
+                                          productId: item.product.id,
+                                          size: item.size
+                                      }) }}"
+                                      class="cart-remove-form">
+                                    <button type="submit" class="btn btn-danger btn-sm">Retirer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Récapitulatif</h4>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <span>Total :</span>
+                        <strong>{{ total|number_format(2, ',', ' ') }} €</strong>
+                    </div>
+                    <hr>
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('app_checkout') }}" class="btn btn-success btn-lg">
+                            Finaliser ma commande
+                        </a>
+                        <a href="{{ path('app_products') }}" class="btn btn-outline-secondary">
+                            Continuer mes achats
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
